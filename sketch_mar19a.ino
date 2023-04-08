@@ -1,0 +1,104 @@
+/* Reference in website :
+ * https://how2electronics.com/interfacing-0-25v-dc-voltage-sensor-with-arduino/
+ *
+ */
+
+#include <ACS712.h>
+#include <PZEM004Tv30.h>
+#include <SoftwareSerial.h>
+ 
+/* Keterangan : 
+ * Sensor 1 : untuk PV
+ * Sensor 2 : Untuk Battery
+ * Relay 1 : Switch ke sumber battery
+ * Relay 2 : Switch ke sumber PV
+ * Relay 3 : Switch ke sumber PLN
+ * Relay 4 : Switch ke sumber Inverter
+ */
+  
+// define sensor analog input
+#define sensor_voltage_1 A0
+#define sensor_voltage_2 A1
+#define sensor_current_1 A3
+#define sensor_current_2 A4
+
+// define relay output
+#define relay_1 8     // RELAY BATTERY (8)
+#define relay_2 11    // RELAY PLTS (11)
+#define relay_3 12    // RELAY PLN
+#define relay_4 13    // RELAY INVERTER
+#define HIDUP LOW
+#define MATI HIGH
+
+// define Serial Communication PZEM004T
+#define rx_1 4
+#define tx_1 5
+#define rx_2 6
+#define tx_2 7
+
+// define Reset Button
+#define ResetButton 3
+int nilaiReset;
+
+// deklarasi object ACS712
+/* Kode untuk type sensor
+ * 5A   : ACS712_05B (185mV)
+ * 20A  : ACS712_20A (100mV)
+ * 30A  : ACS712_30A (66mV)
+ */
+#define ACS712TYPE 100
+ACS712 acs_sensor_1(sensor_current_1, 5.0, 1023, ACS712TYPE);
+ACS712 acs_sensor_2(sensor_current_2, 5.0, 1023, ACS712TYPE);
+
+// buat class DataCurrentVoltage untuk ditampung nilai ADC voltage & input voltage (ADC current & input current)
+class DataCurrentVoltage {
+  public:
+    int current;
+    float voltage = 0.0;
+};
+DataCurrentVoltage Plts;
+DataCurrentVoltage Battery;
+
+// deklarasi object PZEM004T
+// SoftwareSerial connect_pzem1(rx_1, tx_1);
+PZEM004Tv30 pzem_1(rx_1, tx_1);
+// SoftwareSerial connect_pzem2();
+PZEM004Tv30 pzem_2(rx_2, tx_2);
+
+// buat class Data untuk ditampung nilai sensor PZEM
+class DataPzem {
+  public: 
+    float V;
+    float I;
+    float P;
+    float E;
+    float Freq;
+    float pF;    
+};
+DataPzem Inverter;
+DataPzem PLN;
+
+// deklarasi variabel pending
+long pending_1 = 1000; // 1000ms = 1 detik
+long pending_2 = 1000; // 1000ms = 1 detik
+long pending_3 = 1000; // 1000ms = 1 detik
+
+// deklarasi variabel millis waktu sebelum jalannya program
+unsigned long waktuSebelum_1 = 0;
+unsigned long waktuSebelum_2 = 0;
+unsigned long waktuSebelum_3 = 0;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  Serial.println(F("DC Voltage Test"));
+  setupRelay();
+  acs_autoMidPoin();
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  // programMain();
+  // programTester();
+}
