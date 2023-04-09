@@ -1,4 +1,4 @@
-// File Program 6 : program_relay.ino
+// File Program 7 : program_relay.ino
 void kondisi(bool kondisi_battery, bool kondisi_pv) 
 {
   if (kondisi_battery == false && kondisi_pv == true) 

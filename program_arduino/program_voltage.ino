@@ -1,4 +1,4 @@
-// File Program 7 : program_voltage.ino
+// File Program 5 : program_voltage.ino
 // float for resistor values in divider (in ohm)
 float R1 = 30000.0;
 float R2 = 7500.0;
