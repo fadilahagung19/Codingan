@@ -1,12 +1,7 @@
-/* Reference in website :
- * https://how2electronics.com/interfacing-0-25v-dc-voltage-sensor-with-arduino/
- *
- */
-
 #include <ACS712.h>
 #include <PZEM004Tv30.h>
-#include <SoftwareSerial.h>
- 
+#include "LibDataProgram.h"
+
 /* Keterangan : 
  * Sensor 1 : untuk PV
  * Sensor 2 : Untuk Battery
@@ -24,7 +19,7 @@
 
 // define relay output
 #define relay_1 8     // RELAY BATTERY (8)
-#define relay_2 11    // RELAY PLTS (11)
+#define relay_2 11    // RELAY PV (11)
 #define relay_3 12    // RELAY PLN
 #define relay_4 13    // RELAY INVERTER
 #define HIDUP LOW
@@ -50,55 +45,33 @@ int nilaiReset;
 ACS712 acs_sensor_1(sensor_current_1, 5.0, 1023, ACS712TYPE);
 ACS712 acs_sensor_2(sensor_current_2, 5.0, 1023, ACS712TYPE);
 
-// buat class DataCurrentVoltage untuk ditampung nilai ADC voltage & input voltage (ADC current & input current)
-class DataCurrentVoltage {
-  public:
-    int current;
-    float voltage = 0.0;
-};
-DataCurrentVoltage Plts;
-DataCurrentVoltage Battery;
-
 // deklarasi object PZEM004T
-// SoftwareSerial connect_pzem1(rx_1, tx_1);
 PZEM004Tv30 pzem_1(rx_1, tx_1);
-// SoftwareSerial connect_pzem2();
 PZEM004Tv30 pzem_2(rx_2, tx_2);
 
-// buat class Data untuk ditampung nilai sensor PZEM
-class DataPzem {
-  public: 
-    float V;
-    float I;
-    float P;
-    float E;
-    float Freq;
-    float pF;    
-};
-DataPzem Inverter;
-DataPzem PLN;
+/* deklarasi object DataVDC untuk 
+ * ditampung nilai Analog DC voltage & current 
+ */
+DataVDC PV;
+DataVDC Battery;
 
-// deklarasi variabel pending
-long pending_1 = 1000; // 1000ms = 1 detik
-long pending_2 = 1000; // 1000ms = 1 detik
-long pending_3 = 1000; // 1000ms = 1 detik
-
-// deklarasi variabel millis waktu sebelum jalannya program
-unsigned long waktuSebelum_1 = 0;
-unsigned long waktuSebelum_2 = 0;
-unsigned long waktuSebelum_3 = 0;
+// buat object DataVAC untuk ditampung nilai sensor PZEM
+DataVAC Inverter;
+DataVAC PLN;
 
 void setup() {
-  // put your setup code here, to run once:
+  /* set kecepatan transfer data dari atmega328p ke 
+   * serial monitor sebesar 9600 bps (bit per seconds)
+   */
   Serial.begin(9600);
-  Serial.println(F("DC Voltage Test"));
+  
+  // memanggil fungsi setup relay dan sensor acs712
   setupRelay();
   acs_autoMidPoin();
-
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  // programMain();
-  // programTester();
+  // memanggil fungsi program main / program tester
+  // funcMain();
+  // funcTester();
 }
