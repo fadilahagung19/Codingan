@@ -1,20 +1,20 @@
-void kondisi(bool kondisi_battery, bool kondisi_plts) 
+void kondisi(bool kondisi_battery, bool kondisi_pv) 
 {
-  if (kondisi_battery == false && kondisi_plts == true) 
+  if (kondisi_battery == false && kondisi_pv == true) 
   {
     digitalWrite(relay_1, MATI);
     digitalWrite(relay_2, HIDUP);
     digitalWrite(relay_3, MATI);
     digitalWrite(relay_4, HIDUP);
   } 
-  else if (kondisi_battery == true && kondisi_plts == false) 
+  else if (kondisi_battery == true && kondisi_pv == false) 
   {
     digitalWrite(relay_1, HIDUP);
     digitalWrite(relay_2, MATI);
     digitalWrite(relay_3, MATI);
     digitalWrite(relay_4, HIDUP);
   }
-  else if (kondisi_battery == false && kondisi_plts == false) 
+  else if (kondisi_battery == false && kondisi_pv == false) 
   {
     digitalWrite(relay_1, MATI);
     digitalWrite(relay_2, MATI);

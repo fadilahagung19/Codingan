@@ -1,47 +1,51 @@
-void programMain() {
+void funcMain() {
   // deklarasi variabel millis waktu sekarang jalannya program
-  unsigned long waktuSekarang_1 = millis();
-  unsigned long waktuSekarang_2 = millis();
-  unsigned long waktuSekarang_3 = millis();
+  unsigned long waktuSekarang = millis();
 
   // jalankan program 1 : untuk Battery
-  if ((unsigned long) (waktuSekarang_1 - waktuSebelum_1) >= pending_1) {
-    waktuSebelum_1 = waktuSekarang_1;
+  if ((unsigned long) (waktuSekarang - waktuSebelum_1) >= interval_1) {
+    waktuSebelum_1 = waktuSekarang;
     // get voltage and current value battery
-    Plts.voltage = get_voltage(sensor_voltage_1, 12.0);
-    Plts.current = get_current("plts");
+    PV.voltage = get_voltage(sensor_voltage_1, 12.0);
+    PV.current = get_current("pv");
+    PV.power = PV.voltage * PV.current;
 
     // print result to serial monitor to 2 decimal places
-    Serial.print(F("Voltage 1 : "));
-    Serial.print(Plts.voltage, 2);
-    Serial.print(F(" V | Current 1 : "));
-    Serial.print(Plts.current);
-    Serial.println(F(" A|"));
+    Serial.println("\n");
+    Serial.println(F("=================================================================="));
+    Serial.println(F("DATA DAYA PV"));
+    Serial.print(F("Voltage PV  : ")); Serial.print(PV.voltage, 2); Serial.println(F(" V"));
+    Serial.print(F("Current PV  : ")); Serial.print(PV.current); Serial.println(F(" A"));
+    Serial.print(F("Power PV    : ")); Serial.print(PV.power); Serial.println(F(" W"));
+    Serial.println("==================================================================\n");
 
     // Short delay
     delay(500);
   }
 
   // jalankan program 2 : untuk PV
-  if ((unsigned long) (waktuSekarang_2 - waktuSebelum_2) >= pending_2) {
-    waktuSebelum_2 = waktuSekarang_2;
+  if ((unsigned long) (waktuSekarang - waktuSebelum_2) >= interval_2) {
+    waktuSebelum_2 = waktuSekarang;
     // get voltage and current value PV
     Battery.voltage = get_voltage(sensor_voltage_2, 12.0);
     Battery.current = get_current("battery");
+    Battery.power = Battery.voltage * Battery.current;
 
     // print result to serial monitor to 2 decimal places
-    Serial.print(F("Voltage 2 : "));
-    Serial.print(Battery.voltage, 2);
-    Serial.print(F(" V | Current 2 : "));
-    Serial.print(Battery.current);
-    Serial.println(F(" A|"));
+    Serial.println("\n");
+    Serial.println(F("=================================================================="));
+    Serial.println(F("DATA DAYA BATTERY"));
+    Serial.print(F("Voltage BATTERY  : ")); Serial.print(Battery.voltage, 2); Serial.println(F(" V"));
+    Serial.print(F("Current BATTERY  : ")); Serial.print(Battery.current); Serial.println(F(" A"));
+    Serial.print(F("Power BATTERY    : ")); Serial.print(Battery.power); Serial.println(F(" W"));
+    Serial.println("==================================================================\n");
 
     // Short delay
     delay(500);
   }
 
-  if ((unsigned long) (waktuSekarang_3 - waktuSebelum_3) >= pending_3) {
-    waktuSebelum_3 = waktuSekarang_3;
+  if ((unsigned long) (waktuSekarang - waktuSebelum_3) >= interval_3) {
+    waktuSebelum_3 = waktuSekarang;
     // Jalankan program pzem
     dataInverter();
     dataPLN();
@@ -49,7 +53,7 @@ void programMain() {
     nilaiReset = digitalRead(ResetButton);
     resetPzem(nilaiReset);
 
-    Serial.println("\n");    
+    Serial.println("\n");
     // Tampilkan data voltage, current, energy, power, pF dari Inverter
     Serial.println(F("=================================================================="));
     Serial.println(F("DATA PZEM INVERTER"));
@@ -76,29 +80,28 @@ void programMain() {
   }
 
   // program in relay
-  /* kondisi(kondisi_battery, kondisi_plts);
-  *  jika tegangan tidak ada = false
-  *  jika tegangan ada       = true
-  */
-
+  /* kondisi(kondisi_battery, kondisi_pv);
+   * jika tegangan tidak ada = false
+   * jika tegangan ada       = true
+   */
   // jika tegangan battery lemah, maka relay PV Hidup
   if (Battery.voltage <= 10.5) {
     kondisi(false, true);
   }
   
   // jika tegangan PV lemah, maka relay battery Hidup
-  else if (Plts.voltage <= 10.5) {      
+  else if (PV.voltage <= 10.5) {      
     kondisi(true, false);
   }
   
   // jika tegangan battery dan PV lemah, maka relay PLN Hidup
-  else if (Plts.voltage <= 10.5 && Battery.voltage <= 10.5) 
+  else if (PV.voltage <= 10.5 && Battery.voltage <= 10.5) 
   {
     kondisi(false, false);
   }
 }
 
-void programTester() {
+void funcTester() {
   // dataInverter();
   // Serial.println("TEST PZEM 1");
   // Serial.print("Voltage : ");
