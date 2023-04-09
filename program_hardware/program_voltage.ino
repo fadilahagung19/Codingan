@@ -5,11 +5,8 @@ float R2 = 7500.0;
 float get_voltage(int pinSensor, float ref_voltage) 
 {
   // Read the Analog Value
-<<<<<<< HEAD
   int adc_value = analogRead(pinSensor);
-=======
   adc_value = analogRead(pinSensor);
->>>>>>> 4852d52d55e09dbaa2dd35fcd175edfc76e5767d
 
   // Determine voltage at ADC input
   float adc_voltage = (adc_value * ref_voltage) / 1024.0;
