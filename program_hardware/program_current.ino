@@ -6,7 +6,7 @@ void acs_autoMidPoin(void)
 
 int get_current(String data)
 {
-  if(data == "plts") {
+  if(data == "pv") {
     int value_1 = acs_sensor_1.mA_DC();
     return value_1;
   }
