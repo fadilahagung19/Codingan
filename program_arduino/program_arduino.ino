@@ -1,7 +1,7 @@
 // File Program 1 : program_arduino.ino
 #include <ACS712.h>
 #include <PZEM004Tv30.h>
-#include "LibDataProgram.h"
+#include "2_LibDataProgram.h"
 
 /* Keterangan : 
  * Sensor 1 : untuk PV

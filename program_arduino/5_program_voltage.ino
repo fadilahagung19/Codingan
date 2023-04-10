@@ -7,7 +7,6 @@ float get_voltage(int pinSensor, float ref_voltage)
 {
   // Read the Analog Value
   int adc_value = analogRead(pinSensor);
-  adc_value = analogRead(pinSensor);
 
   // Determine voltage at ADC input
   float adc_voltage = (adc_value * ref_voltage) / 1024.0;

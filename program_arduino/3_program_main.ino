@@ -85,20 +85,27 @@ void funcMain() {
    * jika tegangan tidak ada = false
    * jika tegangan ada       = true
    */
-  // jika tegangan battery lemah, maka relay PV Hidup
-  if (Battery.voltage <= 10.5) {
-    kondisi(false, true);
-  }
-  
-  // jika tegangan PV lemah, maka relay battery Hidup
-  else if (PV.voltage <= 10.5) {      
-    kondisi(true, false);
-  }
-  
-  // jika tegangan battery dan PV lemah, maka relay PLN Hidup
-  else if (PV.voltage <= 10.5 && Battery.voltage <= 10.5) 
-  {
-    kondisi(false, false);
+
+  if ((unsigned long) (waktuSekarang - waktuSebelum_4) >= interval_4) {
+    waktuSebelum_4 = waktuSekarang;
+
+    // jika tegangan battery lemah, maka relay PV Hidup
+    if (Battery.voltage <= 10.5) {
+      kondisi(false, true);
+    }
+    
+    // jika tegangan PV lemah, maka relay battery Hidup
+    else if (PV.voltage <= 10.5) {      
+      kondisi(true, false);
+    }
+    
+    // jika tegangan battery dan PV lemah, maka relay PLN Hidup
+    else if (PV.voltage <= 10.5 && Battery.voltage <= 10.5) 
+    {
+      kondisi(false, false);
+    }
+
+    delay(50);
   }
 }
 
