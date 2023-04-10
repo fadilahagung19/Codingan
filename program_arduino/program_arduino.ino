@@ -1,7 +1,7 @@
 // File Program 2 : program_arduino.ino
 #include <ACS712.h>
 #include <PZEM004Tv30.h>
-#include "LibDataProgram.h"
+#include "2_LibDataProgram.h"
 
 /* Keterangan : 
  * Sensor 1 : untuk PV
@@ -13,10 +13,10 @@
  */
   
 // define sensor analog input
-#define sensor_voltage_1 A0
-#define sensor_voltage_2 A1
-#define sensor_current_1 A3
-#define sensor_current_2 A4
+#define sensor_voltage_pv A0
+#define sensor_voltage_battery A1
+#define sensor_current_pv A3
+#define sensor_current_battery A4
 
 // define relay output
 #define relay_1 8     // RELAY BATTERY (8)
@@ -43,8 +43,8 @@ int nilaiReset;
  * 30A  : ACS712_30A (66mV)
  */
 #define ACS712TYPE 100
-ACS712 acs_sensor_1(sensor_current_1, 5.0, 1023, ACS712TYPE);
-ACS712 acs_sensor_2(sensor_current_2, 5.0, 1023, ACS712TYPE);
+ACS712 acs_sensor_pv(sensor_current_pv, 5.0, 1023, ACS712TYPE);
+ACS712 acs_sensor_battery(sensor_current_battery, 5.0, 1023, ACS712TYPE);
 
 // deklarasi object PZEM004T
 PZEM004Tv30 pzem_1(rx_1, tx_1);
@@ -68,7 +68,7 @@ void setup() {
   
   // memanggil fungsi setup relay dan sensor acs712
   setupRelay();
-  acs_autoMidPoin();
+  acs_autoMidPoin("both");
 }
 
 void loop() {
