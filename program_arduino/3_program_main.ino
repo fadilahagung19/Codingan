@@ -73,6 +73,7 @@ void funcMain() {
     Serial.println();
 
     delay(500);
+    
   }
 
   // program in relay
@@ -81,30 +82,31 @@ void funcMain() {
    * jika tegangan ada       = true
    */
 
-  if ((unsigned long) (waktuSekarang - waktuSebelum_4) >= interval_4) {
-    waktuSebelum_4 = waktuSekarang;
-    // jika tegangan battery lemah, maka relay PV Hidup
-    if (Battery.voltage <= cutoff) {
-      kondisi(false, true);
-      Serial.println(F("Mode PV"));
-    }
-    
-    // jika tegangan PV lemah, maka relay battery Hidup
-    if (Battery.voltage >= cutoff) {      
-      kondisi(true, false);
-      Serial.println(F("Mode Battery"));
-    }
-    
-    // jika tegangan battery dan PV lemah, maka relay PLN Hidup
-    if (Battery.voltage <= cutoff && PV.voltage <= cutoff) 
-    {
-      kondisi(false, false);
-      Serial.println(F("Mode PLN"));
-    }
-    
+  // jika tegangan battery lemah, maka relay PV Hidup
+  if (Battery.voltage <= cutoff) {
+    kondisi(false, true);
+  }
+  
+  // jika tegangan PV lemah, maka relay battery Hidup
+  if (PV.voltage <= cutoff) {      
+    kondisi(true, false);
+  }
+  
+  // jika tegangan battery dan PV lemah, maka relay PLN Hidup
+  if (Battery.voltage <= cutoff && PV.voltage <= cutoff) 
+  {
+    kondisi(false, false);
   }
 }
 
 void funcTester() {
   // TODO
+  kondisi(true, false);
+  delay(1000);
+  kondisi(false, true);
+  delay(1000);
+  kondisi(false, false);
+  delay(1000);
+  
+  
 }

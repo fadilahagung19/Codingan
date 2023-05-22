@@ -67,7 +67,7 @@ void setup() {
   /* set kecepatan transfer data dari atmega328p ke 
    * serial monitor sebesar 9600 bps (bit per seconds)
    */
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   // memanggil fungsi setup relay dan sensor acs712
   setupRelay();
@@ -78,5 +78,5 @@ void loop() {
   // memanggil fungsi program main / program tester
    funcMain();
 //   resetPzem(1);
-  // funcTester();
+   funcTester();
 }
