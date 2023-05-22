@@ -34,8 +34,30 @@ void funcMain() {
     Serial.print(F("Power PV    : ")); Serial.print(PV.power); Serial.println(F(" W"));
     Serial.println("==================================================================\n");
 
+    // program in relay
+    /* kondisi(kondisi_battery, kondisi_pv);
+     * jika tegangan tidak ada = false
+     * jika tegangan ada       = true
+     */
+
+    // jika tegangan battery lemah, maka relay PV Hidup
+    if (Battery.voltage <= cutoff) {
+      kondisi(false, true);
+    }
+    
+    // jika tegangan PV lemah, maka relay battery Hidup
+    if (PV.voltage <= cutoff) {      
+      kondisi(true, false);
+    }
+    
+    // jika tegangan battery dan PV lemah, maka relay PLN Hidup
+    if (Battery.voltage <= cutoff && PV.voltage <= cutoff) 
+    {
+      kondisi(false, false);
+    }
+
     // Short delay
-    delay(500);
+    delay(5000);
   }
 
   // Jalankan program pzem
@@ -74,28 +96,6 @@ void funcMain() {
 
     delay(500);
     
-  }
-
-  // program in relay
-  /* kondisi(kondisi_battery, kondisi_pv);
-   * jika tegangan tidak ada = false
-   * jika tegangan ada       = true
-   */
-
-  // jika tegangan battery lemah, maka relay PV Hidup
-  if (Battery.voltage <= cutoff) {
-    kondisi(false, true);
-  }
-  
-  // jika tegangan PV lemah, maka relay battery Hidup
-  if (PV.voltage <= cutoff) {      
-    kondisi(true, false);
-  }
-  
-  // jika tegangan battery dan PV lemah, maka relay PLN Hidup
-  if (Battery.voltage <= cutoff && PV.voltage <= cutoff) 
-  {
-    kondisi(false, false);
   }
 }
 

@@ -12,7 +12,7 @@ class DataVAC {
 
 // deklarasi variabel cutoff dan ref_voltage_system
 const float cutoff             = 11.5;
-const float ref_voltage_system = 3.89;
+const float ref_voltage_system = 4.25;
 
 // deklarasi variabel interval program berjalan
 const long interval_1 = 1000;   // 1000ms = 1 detik

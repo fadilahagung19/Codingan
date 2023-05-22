@@ -5,25 +5,22 @@ void kondisi(bool kondisi_battery, bool kondisi_pv)
   {
     digitalWrite(relay_1, HIDUP);
     digitalWrite(relay_2, MATI);
-    digitalWrite(relay_3, MATI);
-    digitalWrite(relay_4, HIDUP);
-    delay(1000);
+    digitalWrite(relay_3, HIDUP);
+    digitalWrite(relay_4, MATI);
   } 
   if (kondisi_battery == true && kondisi_pv == false) 
   {
     digitalWrite(relay_1, MATI);
     digitalWrite(relay_2, HIDUP);
-    digitalWrite(relay_3, MATI);
-    digitalWrite(relay_4, HIDUP);
-    delay(1000);
+    digitalWrite(relay_3, HIDUP);
+    digitalWrite(relay_4, MATI);
   }
   if (kondisi_battery == false && kondisi_pv == false) 
   {
     digitalWrite(relay_1, MATI);
     digitalWrite(relay_2, MATI);
-    digitalWrite(relay_3, HIDUP);
-    digitalWrite(relay_4, MATI);
-    delay(1000);
+    digitalWrite(relay_3, MATI);
+    digitalWrite(relay_4, HIDUP);
   }
 }
 

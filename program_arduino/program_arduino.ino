@@ -20,21 +20,21 @@
 #define sensor_current_battery A4
 
 // define relay output
-#define relay_1 6     // RELAY PV (8)
-#define relay_2 7    // RELAY BATTERY (11)
-#define relay_3 10    // RELAY PLN
-#define relay_4 11    // RELAY INVERTER
+#define relay_1 9    // RELAY PV (8)
+#define relay_2 10    // RELAY BATTERY (9)
+#define relay_3 11    // RELAY INVERTER
+#define relay_4 12    // RELAY PLN
 #define HIDUP LOW
 #define MATI HIGH
 
 // define Serial Communication PZEM004T
-//#define rx_1 4
-//#define tx_1 5
-//#define rx_2 6
-//#define tx_2 7
+#define rx_1 4
+#define tx_1 5
+#define rx_2 6
+#define tx_2 7
 
 // define Reset Button
-#define ResetButton 4
+#define ResetButton 3
 int nilaiReset = 0;
 
 // deklarasi object ACS712
@@ -48,10 +48,10 @@ ACS712 acs_sensor_pv(sensor_current_pv, 5.0, 1023, ACS712TYPE);
 ACS712 acs_sensor_battery(sensor_current_battery, 5.0, 1023, ACS712TYPE);
 
 // deklarasi object PZEM004T
-//PZEM004Tv30 pzem_1(rx_1, tx_1);
-//PZEM004Tv30 pzem_2(rx_2, tx_2);
-PZEM004Tv30 pzem_1(&Serial3); // Inverter
-PZEM004Tv30 pzem_2(&Serial2); // PLN
+PZEM004Tv30 pzem_1(rx_1, tx_1);
+PZEM004Tv30 pzem_2(rx_2, tx_2);
+//PZEM004Tv30 pzem_1(&Serial3); // Inverter
+//PZEM004Tv30 pzem_2(&Serial2); // PLN
 
 /* deklarasi object DataVDC untuk 
  * ditampung nilai Analog DC voltage & current 
@@ -78,5 +78,5 @@ void loop() {
   // memanggil fungsi program main / program tester
    funcMain();
 //   resetPzem(1);
-   funcTester();
+//   funcTester();
 }
